@@ -7,8 +7,8 @@
     "dev": "webpack-dev-server --mode=development",
     "dev-bind-all": "webpack-dev-server --mode=development --host=0.0.0.0",
     "prod": "webpack --mode production",
-    "test-prod": "webpack --mode production",
     "test-build": "webpack --mode development",
+    "test-build-es5": "webpack --mode=development --build=es5",
     "prod-es5": "webpack --mode=production --build=es5"
   },
   "keywords": [],

@@ -42,11 +42,14 @@ npm install -D @babel/cli @babel/core @babel/preset-env babel-loader
 Now we need a .babelrc file. I first used the magic "env" setting:
 ```
 {
-  "presets": [
-    "env"
-  ]
+  "presets": ["@babel/preset-env"]
 }
 ```
+
+##### Better presets
+The base preset presented above will transpile to ES5 (for now it does), but it does not add any polyfill.
+
+I should probably target a more specific browser. Which would not include IE 11.
 
 #### General CSS
 

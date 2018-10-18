@@ -68,7 +68,7 @@ However this always imports the polyfills, even with the regular, no-babel build
 
 There is an "experimental" feature discussed here: https://babeljs.io/docs/en/babel-preset-env#usebuiltins-usage-experimental
 
-Which should make it so that modules get injected with the required polyfills, and only the ones they actually require.
+Which should make it so that modules get injected with the required polyfills, and only the ones they actually need.
 
 
 #### General CSS

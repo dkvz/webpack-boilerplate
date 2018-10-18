@@ -5,7 +5,8 @@
         "browsers": [
           "edge >= 12"
         ]
-      }
+      },
+      "useBuiltIns": "usage"
     }]
   ]
 }

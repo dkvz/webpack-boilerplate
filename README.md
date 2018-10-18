@@ -36,7 +36,7 @@ It just adds `babel-loader` when build=es5 is given as an argument to webpack.
 ##### Dependencies
 I'm using these dependencies:
 ```
-npm install -D babel-cli babel-core babel-preset-env babel-loader
+npm install -D @babel/cli @babel/core @babel/preset-env babel-loader
 ```
 
 Now we need a .babelrc file. I first used the magic "env" setting:

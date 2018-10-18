@@ -8,12 +8,17 @@
     "dev-bind-all": "webpack-dev-server --mode=development --host=0.0.0.0",
     "prod": "webpack --mode production",
     "test-prod": "webpack --mode production",
-    "test-build": "webpack --mode development"
+    "test-build": "webpack --mode development",
+    "prod-es5": "webpack --mode=production --build=es5"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.4",
+    "babel-preset-env": "^1.7.0",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.3",
     "file-loader": "^2.0.0",

@@ -4,6 +4,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const contentBase = path.join(__dirname, 'dist');
 
+// I just use this to inspect objects in console.log:
+//const util = require('util')
+
 // Generates config objects for HtmlWebpackPlugin instances:
 const minifyOptions = {
   removeComments: true,
@@ -16,6 +19,7 @@ const config = {
     app: './src/app.js'
   },
   output: {
+    // We actuallt set path at the bottom of the config.
     path: contentBase,
     publicPath: '/',
     filename: '[name][hash:5].js'
@@ -59,7 +63,6 @@ const config = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([
       { from: 'webroot', to: '' }
     ])
@@ -76,6 +79,29 @@ const config = {
 // I need to determine the environment, and NODE_ENV is not
 // just unreliable, it's NOT WORKING AT ALL.
 module.exports = (env, argv) => {
+
+  switch (argv.build) {
+    case 'es5':
+      config.output.path += '/es5';
+      config.plugins.push(new CleanWebpackPlugin(['dist/es5']));
+      // We can specify the Babel options, presets or whatnot
+      // in there I think. But I'm using babelrc.
+      config.module.rules.push(
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'babel-loader'
+            }
+          ]
+        }
+      );
+      break;
+    default:
+      config.output.path += '/default';
+      config.plugins.push(new CleanWebpackPlugin(['dist/default']));
+  }
 
   if (argv.mode === 'development') {
     config.devtool = 'source-map';

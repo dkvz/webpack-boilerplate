@@ -1,11 +1,19 @@
+//import '@babel/polyfill';
+
 const truc = 'machin';
 
 console.log(`Let's use some string litterals with ${truc}`);
 
-const f = a => {
-  return a*2;
-};
+const vals = [3, 7, 10];
 
-console.log('10 times 2: ', f(10));
-
-
+Promise.all(
+  vals.map(
+    val => {
+      return new Promise((resolve) => {
+        resolve(val*2);
+      }); 
+    }
+  )
+).then((data) => {
+  console.log(data.join(' - '));
+});

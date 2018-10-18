@@ -51,6 +51,26 @@ The base preset presented above will transpile to ES5 (for now it does), but it 
 
 I should probably target a more specific browser. Which would not include IE 11.
 
+But... If for some reason I wanted IE 11, there seem to be a way to have Babel add polyfills when needed.
+
+I'm going to try and install the @babel/polyfill package to see how that works.
+
+```
+npm install -D @babel/polyfill
+```
+
+In the main script entry point we also have to import the polyfills:
+```
+import '@babel/polyfill';
+```
+
+However this always imports the polyfills, even with the regular, no-babel build. Which isn't great.
+
+There is an "experimental" feature discussed here: https://babeljs.io/docs/en/babel-preset-env#usebuiltins-usage-experimental
+
+Which should make it so that modules get injected with the required polyfills, and only the ones they actually require.
+
+
 #### General CSS
 
 #### SASS

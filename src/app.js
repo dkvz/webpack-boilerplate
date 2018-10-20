@@ -15,20 +15,7 @@ i18next
   .init({
   fallbackLng: 'en',
   debug: false,
-  resources: {
-    en: {
-      translation: {
-        "changeLanguage": "Change language",
-        "validate": "Validate"
-      }
-    },
-    fr: {
-      translation: {
-        "changeLanguage": "Changer la langue",
-        "validate": "Valider"
-      }
-    }
-  }
+  resources: require('./locales.json')
 }, (err, t) => {
   initTranslations();
   document.getElementById('btnSelect').addEventListener('click', _ => {

@@ -177,3 +177,34 @@ i18next.on('languageChanged', _ => {
 
 ##### Loading from the inlined JSON file
 Create a JSON file with the object that is inside the "resources" key provided to i18next.
+
+You need to put all the keys and values between double quotes to adapt to the JSON format.
+
+You have to use "require" instead of "import" or webpack will think you want a dynamic import (which returns a promise).
+
+The i18n init from above then looks something like this:
+```
+i18next
+  .use(LngDetector)
+  .init({
+  fallbackLng: 'en',
+  debug: false,
+  resources: require('./locales.json')
+}, (err, t) => {
+  initTranslations();
+  document.getElementById('btnSelect').addEventListener('click', _ => {
+    i18next.changeLanguage(lgSelect.value);
+  });
+});
+```
+
+##### The evil doing-it-myself plan
+I noticed i18n adds 41k of minified JS. That's more than I thought it would be.
+
+I'm thinking maybe I can write my own i18n. I don't even need a "loaded" callback if I inline most of my translations first.
+
+I just need to write something to detect languages.
+
+Then I can use the format of locales.json that I used on my Polymer projects.
+
+One of the advantages of i18next is that it's got a lot of options to help you compose translations with parameters, among other things.

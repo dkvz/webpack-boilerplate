@@ -1,0 +1,14 @@
+{
+  "en": {
+    "translation": {
+      "changeLanguage": "Change language",
+      "validate": "Validate"
+    }
+  },
+  "fr": {
+    "translation": {
+      "changeLanguage": "Changer la langue",
+      "validate": "Valider"
+    }
+  }
+}

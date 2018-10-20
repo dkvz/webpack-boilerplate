@@ -6,7 +6,7 @@
           "edge >= 12"
         ]
       },
-      "useBuiltIns": "usage"
+      "useBuiltIns": "entry"
     }]
   ]
 }

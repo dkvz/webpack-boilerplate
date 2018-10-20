@@ -70,9 +70,20 @@ There is an "experimental" feature discussed here: https://babeljs.io/docs/en/ba
 
 Which should make it so that modules get injected with the required polyfills, and only the ones they actually need.
 
+The non-experimental way to do this is to use `"useBuiltIns": "entry"` and have the import at the beginning of scripts that require the polyfills. Normally, a limited amount of polyfills should be loaded according to what is used in your script.
+
+The result is that I get more polyfills than if I were to use "usage" instead of "entry", but I still get more than if I wasn't using any of them. So I guess I'll settile for "entry".
+
+##### More than two builds
+I have to test ES6 modules. What if I use import() somewhere in a script, does it rely on the browser (to return a Promise), or does Webpack transform this into a Promise?
+
+Because if I use ES6 modules I might need Babel for my "normal" build as well. Actually, I also wanted to use string literals which would also benefit from Babel since I need to support at least the Chrome that the Google crawlers use (to check).
+
+-> If I want to use more builds I need to get rid of .babelrc and have Webpack provide the Babel config as an option to babel-loader, which I think is possible.
 
 #### General CSS
 
 #### SASS
 
-
+## TODO
+I need to merge the docs from all the branches with master.

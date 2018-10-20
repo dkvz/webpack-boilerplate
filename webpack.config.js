@@ -84,15 +84,54 @@ module.exports = (env, argv) => {
     case 'es5':
       config.output.path += '/es5';
       config.plugins.push(new CleanWebpackPlugin(['dist/es5']));
-      // We can specify the Babel options, presets or whatnot
-      // in there I think. But I'm using babelrc.
       config.module.rules.push(
         {
           test: /\.js$/,
           exclude: /node_modules/,
           use: [
             {
-              loader: 'babel-loader'
+              loader: 'babel-loader',
+              options: {
+                "presets": [
+                  ["@babel/preset-env", {
+                    "targets": {
+                      "browsers": [
+                        "ie 11"
+                      ]
+                    },
+                    "useBuiltIns": "usage"
+                  }]
+                ]
+              }
+            }
+          ]
+        }
+      );
+      break;
+    case 'es6':
+      // I'im going to use the Chrome version used by the Google
+      // crawlers for this build.
+      config.output.path += '/es6';
+      config.plugins.push(new CleanWebpackPlugin(['dist/es6']));
+      config.module.rules.push(
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                "presets": [
+                  ["@babel/preset-env", {
+                    "targets": {
+                      "browsers": [
+                        "chrome >= 41"
+                      ]
+                    },
+                    "useBuiltIns": "usage"
+                  }]
+                ]
+              }
             }
           ]
         }

@@ -9,7 +9,9 @@
     "prod": "webpack --mode production",
     "test-build": "webpack --mode development",
     "test-build-es5": "webpack --mode=development --build=es5",
-    "prod-es5": "webpack --mode=production --build=es5"
+    "test-build-es6": "webpack --mode=development --build=es6",
+    "prod-es5": "webpack --mode=production --build=es5",
+    "prod-es6": "webpack --mode=production --build=es6"
   },
   "keywords": [],
   "author": "",

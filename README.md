@@ -182,6 +182,10 @@ plugins: [
 ```
 The plugin is also where you determine the output path of your final CSS file. It's automatically injected by HtmlWebpackPlugin so it should not really matter. Normally. Maybe. I don't know.
 
+You still need to import the .scss file(s) in your JavaScript entry point.
+
+
+
 #### i18n
 I'm going to use i18n for this, with the translation keys in a JSON file inline by Webpack.
 

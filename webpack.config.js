@@ -77,7 +77,7 @@ const config = {
             loader: 'url-loader',
             options: {
               limit: 10000,
-              name: 'static/[name][hash:7].[ext]'
+              name: 'static/[name][contenthash:7].[ext]'
             }
           }
         ]
@@ -108,7 +108,7 @@ const config = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name][hash:5].css",
+      filename: "[name][contenthash:5].css",
     }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([

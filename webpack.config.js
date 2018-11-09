@@ -43,7 +43,7 @@ const config = {
             loader: 'url-loader',
             options: {
               limit: 10000,
-              name: 'static/[name][hash:7].[ext]'
+              name: 'static/[name][contenthash:7].[ext]'
             }
           }
         ]

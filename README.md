@@ -175,7 +175,7 @@ Last thing is to add the MiniCssExtractPlugin to the plugins array:
 ```
 plugins: [
   new MiniCssExtractPlugin({
-    filename: "[name][hash:5].css",
+    filename: "[name][contenthash:5].css",
   }),
   // ... Rest of your plugins.
 ]

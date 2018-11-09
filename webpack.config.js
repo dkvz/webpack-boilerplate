@@ -20,6 +20,20 @@ const config = {
     publicPath: '/',
     filename: '[name][hash:5].js'
   },
+  optimization: {
+    // Had to add the minimize stuff because of 
+    // a bug in Safari that shows up only
+    // on minified code.
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          mangle: {
+            safari10: true
+          }
+        }
+      })
+    ],
+  },
   module: {
     rules: [
       {

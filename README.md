@@ -20,6 +20,28 @@ npm run dev-bind-all
 ### Add more STUFF
 Not a fan of having too much stuff.
 
+#### Fixes and hacks
+I ran into a bug with minification and Safari 10. If you want to support Safari 10, you might want to explicitely test your production build (made by `npm run prod`) because the Webpack minification causes a Safari ES6 bug to appear (might not happen if you use ES5 or babelify to ES5).
+
+My advice would be to first test on Safari without the fix, and if you get the bug, you need to specify the minification options in the "optimization" part of the config, like so:
+```
+  optimization: {
+    // Had to add the minimize stuff because of 
+    // a bug in Safari that shows up only
+    // on minified code.
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          mangle: {
+            safari10: true
+          }
+        }
+      })
+    ],
+  },
+```
+You can add the "optimization" section right after `output: {}` if you don't have it yet.
+
 #### Babel
 I wanted a very specific Babel setup that would produce an ES5 build, and also a non-transpiled build (which is assumed to be ES6 or whatever).
 

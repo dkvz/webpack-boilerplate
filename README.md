@@ -42,6 +42,11 @@ My advice would be to first test on Safari without the fix, and if you get the b
 ```
 You can add the "optimization" section right after `output: {}` if you don't have it yet.
 
+Also this won't work unless you have the require statement for UglifyJSPlugin at the top of your config file:
+```
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+```
+
 #### Babel
 I wanted a very specific Babel setup that would produce an ES5 build, and also a non-transpiled build (which is assumed to be ES6 or whatever).
 
@@ -106,6 +111,76 @@ Because if I use ES6 modules I might need Babel for my "normal" build as well. A
 #### General CSS
 
 #### SASS
+There's more than one way to use SASS with Wepback. I'm not sure I have the most efficient one nor the one with the best looking config file but at least it works.
+
+Some older ways to do this were NOT working with Webpack 4.
+
+As always, some extra packages to install (not sure if you need absolutely all of these):
+```
+npm install -D css-loader autoprefixer mini-css-extract-plugin node-sass postcss-loader precss sass-loader style-loader
+```
+
+The goal is to extract all CSS into one single file and put that in the head tag of our HTML template, which requires one of the "css-extract" plugins (this is to avoid FOUC but you could devise some weird plan to take advantage of CSS-in-JS and have some kind of loading screen). So let's require that at the top of our config file:
+```
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+```
+
+Now if you don't have an "optimization" section in your config file (you need one for the Safari 10 ES6 bug mentioned above) you will have to add one, right after "output" being a good place.
+
+Inside that optimization section you need a few lines for some weird reason, don't ask me:
+```
+  optimization: {
+    // We need all that stuff for SASS.
+    // I already regret using it.
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
+    }
+  }
+```
+I added the "optimization" section to the snippet for illustration. Append the `splitChunks` object to your own optimization section if you have one already.
+
+Now we need a rule for .scss files (in the rules section of modules) to assign it the right loaders:
+```
+{
+  test: /\.scss$/,
+  use: [
+    { loader: MiniCssExtractPlugin.loader },
+    { loader: "css-loader" },
+    {
+      // PostCSS stuff is required by Bootstrap SCSS.
+      loader: 'postcss-loader',
+      options: {
+        plugins: function () {
+          return [
+            require('precss'),
+            require('autoprefixer')
+          ];
+        }
+      }
+    },
+    { loader: "sass-loader" }
+  ]
+},
+```
+We're basically chaining 4 loaders here. Yeah... Makes me sad too. Do note that "autoprefixer" is supposed to make it so that Webpack automatically adds the -webkit-whatever and -moz-whatever prefixes to CSS stuff that has existing prefixes.
+
+Last thing is to add the MiniCssExtractPlugin to the plugins array:
+```
+plugins: [
+  new MiniCssExtractPlugin({
+    filename: "static/[name][hash:5].css",
+  }),
+  // ... Rest of your plugins.
+]
+```
+The plugin is also where you determine the output path of your final CSS file. It's automatically injected by HtmlWebpackPlugin so it should not really matter. Normally. Maybe. I don't know.
 
 #### i18n
 I'm going to use i18n for this, with the translation keys in a JSON file inline by Webpack.

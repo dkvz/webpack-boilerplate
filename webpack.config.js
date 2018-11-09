@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const contentBase = path.join(__dirname, 'dist');
 
 // Generates config objects for HtmlWebpackPlugin instances:
@@ -33,9 +35,41 @@ const config = {
         }
       })
     ],
+    // We need all that stuff for SASS.
+    // I already regret using it.
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
+    }
   },
   module: {
     rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: "css-loader" },
+          {
+            // PostCSS stuff is required by Bootstrap SCSS.
+            loader: 'postcss-loader',
+            options: {
+              plugins: function () {
+                return [
+                  require('precss'),
+                  require('autoprefixer')
+                ];
+              }
+            }
+          },
+          { loader: "sass-loader" }
+        ]
+      },
       {
         test: /\.(png|jpe?g|gif)(\?.*)?$/i,
         use: [
@@ -73,6 +107,9 @@ const config = {
     ]
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: "static/[name][hash:5].css",
+    }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([
       { from: 'webroot', to: '' }

@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const contentBase = path.join(__dirname, 'dist');
 
 // Generates config objects for HtmlWebpackPlugin instances:
@@ -36,6 +38,14 @@ const config = {
   },
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          MiniCssExtractPlugin.loader,
+          'css-loader'
+        ]
+      },
       {
         test: /\.(png|jpe?g|gif)(\?.*)?$/i,
         use: [
@@ -73,6 +83,9 @@ const config = {
     ]
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'style.[contenthash].css',
+    }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([
       { from: 'webroot', to: '' }

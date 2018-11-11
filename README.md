@@ -109,6 +109,41 @@ Because if I use ES6 modules I might need Babel for my "normal" build as well. A
 -> If I want to use more builds I need to get rid of .babelrc and have Webpack provide the Babel config as an option to babel-loader, which I think is possible.
 
 #### General CSS
+The "normal" CSS config is close to the SASS one but with a lot less dependencies.
+
+Few packages to install:
+```
+npm install -D css-loader style-loader mini-css-extract-plugin
+```
+
+Add the require for the mini-css-extract plugin:
+```
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+```
+
+Add this loader config to the rules array:
+```
+{
+  test: /\.css$/,
+  use: [
+    'style-loader',
+    MiniCssExtractPlugin.loader,
+    'css-loader'
+  ]
+}
+```
+
+Finally, add the plugin to your plugins array:
+```
+plugins: [
+  new MiniCssExtractPlugin({
+    filename: 'style.[contenthash].css',
+  }),
+  // ... Other plugins.
+]
+```
+
+You still need to import you CSS file(s) in your JS entry point.
 
 #### SASS
 There's more than one way to use SASS with Wepback. I'm not sure I have the most efficient one nor the one with the best looking config file but at least it works.
